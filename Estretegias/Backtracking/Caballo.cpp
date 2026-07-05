@@ -125,7 +125,7 @@ void caballo_opt(int fAc, int cAc, int fDes, int cDes, int **pase, int nroPaso, 
                 if (puedoAplicarMovimiento(nuevaFila, nuevaCol, pase))
                 {
                     aplicarMovimiento(nuevaFila, nuevaCol, pase, nroPaso);
-                    caballo_opt(nuevaFila, nuevaCol, fDes, cDes, pase, nroPaso + 1, mejorNroPaso);
+                    caballo_opt(nuevaFila, nuevaCol, fDes, cDes, pase, nroPaso + 1, mejorNroPaso, mejorPase);
                     deshacerMovimiento(nuevaFila, nuevaCol, pase);
                 }
             }
