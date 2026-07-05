@@ -4,7 +4,7 @@
 #include <limits>
 using namespace std;
 
-#define N 8
+#define N 4
 
 bool esSolucion(int colAct)
 {
@@ -92,20 +92,46 @@ void deshacerMovimiento(int fila, int col, bool **tablero)
     tablero[fila][col] = false;
 }
 
-void nreinas_enum(bool **tablero, int col)
+void nreinas_enum(bool **tablero, int col, int &nroSol)
 {
     if (esSolucion(col))
     {
         imprimirTablero(tablero);
+        nroSol++;
     }
     else
     {
         for (int fila = 0; fila < N; fila++)
         {
-            if (puedoAplicarMovimiento(fila, col, tablero)){
+            if (puedoAplicarMovimiento(fila, col, tablero))
+            {
                 aplicarMovimiento(fila, col, tablero);
-                nreinas_enum(tablero, col + 1);
+                nreinas_enum(tablero, col + 1, nroSol);
                 deshacerMovimiento(fila, col, tablero);
+            }
+        }
+    }
+}
+
+void nreinas_dec(bool **tablero, int col, bool &exito)
+{
+    if (!exito)
+    {
+        if (esSolucion(col))
+        {
+            imprimirTablero(tablero);
+            exito = true;
+        }
+        else
+        {
+            for (int fila = 0; fila < N; fila++)
+            {
+                if (puedoAplicarMovimiento(fila, col, tablero))
+                {
+                    aplicarMovimiento(fila, col, tablero);
+                    nreinas_dec(tablero, col + 1, exito);
+                    deshacerMovimiento(fila, col, tablero);
+                }
             }
         }
     }
@@ -119,6 +145,13 @@ int main()
         tablero[i] = new bool[N]();
     }
 
-    nreinas_enum(tablero, 0);
+    int cantSoluciones = 0;
+    // nreinas_enum(tablero, 0, cantSoluciones);
+    // cout << "Existen: " << cantSoluciones << " soluciones para tableros de tamaño " << N << endl;
+
+    bool exito = false;
+    // nreinas_dec(tablero, 0, exito);
+    // cout << (!exito ? "No e" : "E") << "xiste una solucion" << endl;
+
     return 0;
 }
