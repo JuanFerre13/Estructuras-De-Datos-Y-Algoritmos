@@ -1,6 +1,8 @@
 #ifndef NODO_LISTA
 #define NODO_LISTA
 
+#include <cstddef>
+
 template <class T>
 struct NodoLista
 {

@@ -1,9 +1,7 @@
 #ifndef MIN_HEAP
 #define MIN_HEAP
 #include <cassert>
-#include <iostream>
 #include "HeapBinario.h"
-using namespace std;
 
 template <class T>
 class MinHeap : public HeapBinario<T>

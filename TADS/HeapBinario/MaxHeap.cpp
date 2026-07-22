@@ -1,9 +1,7 @@
 #ifndef MAX_HEAP
 #define MAX_HEAP
 #include <cassert>
-#include <iostream>
 #include "HeapBinario.h"
-using namespace std;
 
 template <class T>
 class MaxHeap : public HeapBinario<T>
@@ -56,15 +54,15 @@ private:
         int posHijoDer = this->hijoDer(pos);
         if (posHijoIzq < sigLibre)
         {
-            int posMenorHijo = posHijoIzq;
-            if (posHijoDer < sigLibre && this->esMayor(arr[posHijoDer], arr[posMenorHijo]))
+            int posMayorHijo = posHijoIzq;
+            if (posHijoDer < sigLibre && this->esMayor(arr[posHijoDer], arr[posMayorHijo]))
             {
-                posMenorHijo = posHijoDer;
+                posMayorHijo = posHijoDer;
             }
-            if (this->esMayor(arr[posMenorHijo], arr[pos]))
+            if (this->esMayor(arr[posMayorHijo], arr[pos]))
             {
-                intercambiar(pos, posMenorHijo);
-                hundir(posMenorHijo);
+                intercambiar(pos, posMayorHijo);
+                hundir(posMayorHijo);
             }
         }
     }
