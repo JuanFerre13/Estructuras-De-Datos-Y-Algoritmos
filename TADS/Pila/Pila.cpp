@@ -1,16 +1,17 @@
-#ifndef LISTA_IMP
-#define LISTA_IMP
+#ifndef PILA_IMP
+#define PILA_IMP
 
-#include "Lista.h"
+#include <cassert>
+#include "Pila.h"
 
-Lista::Lista()
+Pila::Pila()
 {
     vector = new int[50];
     largoVector = 50;
     cantElementos = 0;
 }
 
-Lista::Lista(const Lista &otra)
+Pila::Pila(const Pila &otra)
 {
     largoVector = otra.largoVector;
     cantElementos = otra.cantElementos;
@@ -21,7 +22,7 @@ Lista::Lista(const Lista &otra)
     }
 }
 
-Lista &Lista::operator=(const Lista &otra)
+Pila &Pila::operator=(const Pila &otra)
 {
     if (this != &otra)
     {
@@ -37,12 +38,12 @@ Lista &Lista::operator=(const Lista &otra)
     return *this;
 }
 
-Lista::~Lista()
+Pila::~Pila()
 {
     delete[] vector;
 }
 
-void Lista::reagrandar()
+void Pila::reagrandar()
 {
     int *arrayNuevo = new int[2 * largoVector];
     for (int i = 0; i < cantElementos; i++)
@@ -54,51 +55,34 @@ void Lista::reagrandar()
     vector = arrayNuevo;
 }
 
-void Lista::agregar(int e, unsigned int pos)
+void Pila::push(int e)
 {
-    if (cantElementos == largoVector) // La lista esta llena
+    if (cantElementos == largoVector) // La pila esta llena
     {
         reagrandar();
     }
-    if (pos >= cantElementos)
-    {
-        vector[cantElementos] = e;
-    }
-    else
-    {
-        for (int i = cantElementos; i > pos; i--)
-        {
-            vector[i] = vector[i - 1];
-        }
-        vector[pos] = e;
-    }
+    vector[cantElementos] = e;
     cantElementos++;
 }
 
-void Lista::borrar(unsigned int pos)
+int Pila::top()
 {
-    if (pos >= cantElementos)
-    {
-        return;
-    }
-    for (int i = pos; i < cantElementos - 1; i++)
-    {
-        vector[i] = vector[i + 1];
-    }
+    assert(!esVacia());
+    return vector[cantElementos - 1];
+}
+
+void Pila::pop()
+{
+    assert(!esVacia());
     cantElementos--;
 }
 
-int Lista::elemento(unsigned int pos)
-{
-    return vector[pos];
-}
-
-bool Lista::esVacia()
+bool Pila::esVacia()
 {
     return cantElementos == 0;
 }
 
-unsigned int Lista::cantidadElementos()
+unsigned int Pila::cantidadElementos()
 {
     return cantElementos;
 }
