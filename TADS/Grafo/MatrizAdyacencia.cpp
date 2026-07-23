@@ -46,12 +46,20 @@ public:
     void agregarArista(int origen, int destino, int peso = 1)
     {
         assert(esPonderado || peso == 1);
+        assert(origen >= 1 && origen <= V);
+        assert(destino >= 1 && destino <= V);
+
+        // Si la arista ya existia solo se actualiza el peso: no es una arista nueva.
+        bool esNueva = mat[origen][destino] == INF;
         mat[origen][destino] = peso;
         if (!esDirigido)
         {
             mat[destino][origen] = peso;
         }
-        A++;
+        if (esNueva)
+        {
+            A++;
+        }
     }
 
     NodoLista<Arista> *adyacentesA(int origen)
