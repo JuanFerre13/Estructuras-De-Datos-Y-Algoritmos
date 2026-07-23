@@ -5,6 +5,8 @@ template <class T>
 class HeapBinario
 {
 public:
+    virtual ~HeapBinario() {}
+
     virtual bool estaLleno() = 0;
 
     virtual bool estaVacio() = 0;
