@@ -6,7 +6,7 @@
 /*
  * TAD AVL
  * -------
- * Árbol Binario de Búsqueda auto-balanceado (Adelson-Velsky y Landis).
+ * Árbol Binario de Búsqueda auto-balanceado.
  *
  * En todo momento, para cada nodo del árbol, la diferencia de altura
  * entre sus subárboles izquierdo y derecho (factor de balance) es

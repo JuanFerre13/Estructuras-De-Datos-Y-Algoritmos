@@ -1,9 +1,9 @@
 #ifndef MA
 #define MA
+
 #include <cassert>
 #include <climits>
 #include "./Grafo.h"
-#include "../HeapBinario/MinHeap.cpp"
 
 #define INF INT_MAX
 
@@ -17,7 +17,7 @@ private:
     bool esDirigido;
 
 public:
-    MatrizAdyacencia(int _V, int _A, bool _esPonderado, bool _esDirigido)
+    MatrizAdyacencia(int _V, bool _esPonderado, bool _esDirigido)
     {
         V = _V;
         A = 0;
@@ -57,12 +57,12 @@ public:
     NodoLista<Arista> *adyacentesA(int origen)
     {
         NodoLista<Arista> *ret = NULL;
-        for (int destino = 1; destino <= V; destino++)
+        for (int i = 1; i <= V; i++) // i es el destino
         {
-            int peso = mat[origen][destino];
+            int peso = mat[origen][i];
             if (peso != INF)
             {
-                Arista a(origen, destino, peso);
+                Arista a(origen, i, peso);
                 ret = new NodoLista<Arista>(a, ret);
             }
         }
