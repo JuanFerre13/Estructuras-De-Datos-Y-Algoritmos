@@ -1,5 +1,5 @@
-#ifndef FLOYDWARSHALL
-#define FLOYDWARSHALL
+#ifndef FLOYD
+#define FLOYD
 
 #include <cassert>
 #include <string>
