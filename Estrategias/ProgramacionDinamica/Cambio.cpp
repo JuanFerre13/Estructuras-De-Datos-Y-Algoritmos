@@ -2,10 +2,12 @@
 #include <string>
 #include <iostream>
 #include <climits>
+
 using namespace std;
 
 #define INF INT_MAX
 #define TIPOS_MONEDAS 6
+
 int monedas[TIPOS_MONEDAS] = {1, 2, 5, 10, 12, 50};
 
 int *cambio_pd(int cambio)

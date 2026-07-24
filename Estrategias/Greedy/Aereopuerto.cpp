@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include "../TADS/HeapBinario/MinHeap.cpp"
+
 using namespace std;
 
 bool funcionComparadora(int a, int b)
