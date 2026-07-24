@@ -33,7 +33,7 @@ operaciones, de manera que se pueda leer como material de estudio y no solamente
 │   ├── ABB/                  Árbol Binario de Búsqueda
 │   ├── AVL/                  Árbol Binario de Búsqueda balanceado
 │   ├── HeapBinario/          Heap binario (MinHeap y MaxHeap)
-│   ├── MFSet/                Merge-Find Set (union-find con unión por altura)
+│   ├── MFSet/                Merge-Find Set (unión por altura + compresión de caminos)
 │   └── Grafo/                Grafo: interfaz + Matriz y Lista de Adyacencia
 │
 ├── Algoritmos/               Algoritmos sobre grafos
@@ -80,69 +80,60 @@ En Windows con MinGW el comando es el mismo, cambiando el ejecutable de salida a
 
 ## Resumen de órdenes temporales
 
-### TADs
+### Estructuras de datos
 
-| Estructura | Operación | Caso promedio | Peor caso | Espacio |
-|---|---|---|---|---|
-| **Lista (vector dinámico)** | Acceso por índice | O(1) | O(1) | O(n) |
-| | Insertar al final | O(1) amortizado | O(n) (al reagrandar) | |
-| | Insertar / borrar en posición | O(n) | O(n) | |
-| | Búsqueda | O(n) | O(n) | |
-| **Lista enlazada** | Acceso por índice | O(n) | O(n) | O(n) |
-| | Insertar / borrar al inicio | O(1) | O(1) | |
-| | Búsqueda | O(n) | O(n) | |
-| **Pila** | Apilar / Desapilar / Tope | O(1) | O(1) | O(n) |
-| **Cola** | Encolar / Desencolar / Frente | O(1) | O(1) | O(n) |
-| **Tabla de hash** | Insertar / Buscar / Borrar | O(1) | O(n) (todo colisiona) | O(n) |
-| **ABB** | Insertar / Buscar / Borrar | O(log n) | O(n) (degenera en lista) | O(n) |
-| | Mínimo / Máximo | O(log n) | O(n) | |
-| | Recorrida (in/pre/pos orden) | O(n) | O(n) | |
-| **AVL** | Insertar / Buscar / Borrar | O(log n) | **O(log n)** | O(n) |
-| **Heap binario** | Insertar | O(log n) | O(log n) | O(n) |
-| | Obtener mínimo / máximo | O(1) | O(1) | |
-| | Borrar mínimo / máximo | O(log n) | O(log n) | |
-| | Construcción desde vector | O(n) | O(n) | |
-| **MFSet (union-find)** | Find | O(α(n)) amortizado | O(log n) | O(n) |
-| | Merge | O(α(n)) amortizado | O(log n) | |
+| Estructura | Caso | Insertar | Eliminar | Buscar |
+|:---|:---|:---:|:---:|:---:|
+| **Lista (vector)** | Caso Promedio | 1 (al final) | N | N |
+| | Peor Caso | N (reagrandar) | N | N |
+| **Lista enlazada** | Caso Promedio | 1 (al inicio) | N | N |
+| | Peor Caso | 1 (al inicio) | N | N |
+| **Pila / Cola** | Peor Caso | 1 | 1 | — |
+| **ABB** | Caso Promedio | Log N | Log N | Log N |
+| | Peor Caso | N | N | N |
+| **AVL** | Peor Caso | Log N | Log N | Log N |
+| **Hash** | Caso Promedio | 1 | 1 | 1 |
+| | Peor Caso | N | N | N |
+| **Heap** | Caso Promedio | 1 | Log N (raíz) | 1 (raíz) |
+| | Peor Caso | Log N | N (cualquiera) | N (cualquiera) |
+| **Heap + Hash** | Caso Promedio | Log N | Log N | Log N (existe: 1) |
+| **MFSet** | Con Union By Rank | — | — | Log N (con PC) |
+| | Sin mejoras | — | — | N |
 
-> La implementación combina **unión por altura** y **compresión de caminos**, por lo que el costo
-> amortizado de `find` y `merge` es O(α(n)) — con α la inversa de Ackermann, que para cualquier n
-> práctico vale menos que 5, es decir, prácticamente constante. Sin compresión de caminos el costo
-> sería O(log n).
+Notas:
 
-### Grafos: representación
+- **ABB**: el peor caso N ocurre cuando el árbol degenera en lista (inserciones ordenadas).
+- **Hash**: el peor caso N ocurre cuando todas las claves colisionan.
+- **Heap**: eliminar y buscar son baratos únicamente sobre la raíz; sobre un elemento cualquiera hay
+  que recorrer todo el heap. Combinarlo con una tabla de hash (**Heap + Hash**) permite localizar
+  cualquier elemento y bajar esas operaciones a Log N.
+- **MFSet**: `PC` = compresión de caminos, implementada en `TADS/MFSet/MFSet.cpp`. Combinada con
+  unión por altura, el costo amortizado real es O(α(N)) —prácticamente constante—, aunque en la
+  materia se acota como Log N.
 
-Con **V** vértices y **A** aristas:
+### Grafos
 
-| Operación | Matriz de adyacencia | Lista de adyacencia |
-|---|---|---|
-| Espacio | O(V²) | O(V + A) |
-| Agregar arista | O(1) | O(1) |
-| ¿Existe arista (u,v)? | O(1) | O(grado(u)) |
-| Recorrer adyacentes a u | O(V) | O(grado(u)) |
+Con **V** vértices y **A** aristas. **LA** = lista de adyacencia, **MA** = matriz de adyacencia.
 
-### Algoritmos sobre grafos
-
-| Algoritmo | Orden temporal | Notas |
-|---|---|---|
-| **BFS** | O(V + A) | Con lista de adyacencia; O(V²) con matriz |
-| **DFS** | O(V + A) | Con lista de adyacencia; O(V²) con matriz |
-| **Orden topológico** | O(V + A) | Solo sobre grafos dirigidos acíclicos (DAG) |
-| **Dijkstra** | O(A log V) | Con heap binario. No admite pesos negativos |
-| **Bellman-Ford** | O(V · A) | Admite pesos negativos y detecta ciclos negativos |
-| **Floyd** | O(V³) | Caminos mínimos entre todo par de vértices |
-| **Warshall** | O(V³) | Clausura transitiva (alcanzabilidad) |
-| **Prim** | O(A log V) | Árbol generador mínimo; conviene en grafos densos |
-| **Kruskal** | O(A log A) | Árbol generador mínimo; usa MFSet. Conviene en grafos ralos |
+| Algoritmo | Orden | |
+|:---|:---:|:---:|
+| **BFS** | (LA) V + A | (MA) V² |
+| **DFS** | (LA) V + A | (MA) V² |
+| **Orden Topológico** | V + A | |
+| **Dijkstra** | (V + A) Log V | |
+| **Bellman-Ford** | V · A | |
+| **Floyd - Warshall** | V³ | |
+| **Prim** | (V + A) Log V | |
+| **Kruskal** | A · Log A | A · Log V |
 
 ### Estrategias algorítmicas
 
-| Problema | Estrategia | Orden temporal |
-|---|---|---|
-| **N-Reinas** | Backtracking | O(n!) en el peor caso |
+| Problema | Estrategia | Orden |
+|:---|:---|:---:|
+| **N-Reinas** | Backtracking | N! |
 | **Recorrida del Caballo** | Backtracking | Exponencial |
-| **Aeropuerto** | Greedy | O(n log n) (dominado por el ordenamiento) |
-| **Problema del Cambio** | Programación dinámica | O(n · M), con M el monto y n la cantidad de monedas |
+| **Aeropuerto** | Greedy | N Log N |
+| **Problema del Cambio** | Programación Dinámica | N · M (M = monto) |
 
 ---
 
