@@ -66,7 +66,7 @@ int main()
     {
         if (monedasQueUse[i] > 0)
         {
-            cout << "Use " << monedasQueUse[i] << (monedasQueUse[i] != 1 ? " veces " : " vez ") << "la moneda de " << monedas[i] << endl;
+            cout << "Use " << monedasQueUse[i] << (monedasQueUse[i] != 1 ? " veces " : " vez ") << "la moneda de $" << monedas[i] << endl;
         }
     }
 

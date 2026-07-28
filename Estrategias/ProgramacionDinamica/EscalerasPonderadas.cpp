@@ -46,6 +46,7 @@ int escPondTab(int escalon, int *esfuerzo)
     {
         tab[i] = min(tab[i - 1], tab[i - 2]) + esfuerzo[escalon];
         // Si quiero imprimir el camino
+        
         // int estoy = escalon;
         // while (estoy != 0)
         // {
