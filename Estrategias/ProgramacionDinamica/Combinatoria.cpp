@@ -4,6 +4,7 @@
 #include <limits>
 #include "../../TADS/Cola/Cola.h"
 #include "../../TADS/Cola/ColaImp.cpp"
+
 using namespace std;
 
 struct Coordenada
@@ -23,8 +24,10 @@ int main()
     cin >> N;
     int P;
     cin >> P;
+
     long long *tab = new long long[N + 1];
     Cola<Coordenada> *aProcesar = new ColaImp<Coordenada>();
+
     for (int i = 0; i < P; i++)
     {
         int n;
@@ -33,7 +36,9 @@ int main()
         Coordenada C(n, k);
         aProcesar->encolar(C);
     }
+
     Coordenada actual = aProcesar->desencolar();
+
     for (int n = 0; n < N + 1; n++)
     {
         for (int k = n; k >= 0; k--)
@@ -43,7 +48,8 @@ int main()
             else
                 tab[k] = tab[k - 1] + tab[k];
         }
-        // opcion 1
+
+        // Opción 1
         // for (int k = 0; k <= n; k++)
         // {
         //     if (actual.n == n && actual.k == k)
@@ -56,7 +62,7 @@ int main()
         //     }
         // }
 
-        // opcion 2
+        // Opción 2
         while (actual.n == n)
         {
             cout << tab[actual.k] << endl;
