@@ -29,7 +29,7 @@ operaciones, de manera que se pueda leer como material de estudio y no solamente
 │   ├── Lista/                Lista sobre vector dinámico + NodoLista (lista enlazada)
 │   ├── Pila/                 Pila (LIFO)
 │   ├── Cola/                 Cola (FIFO)
-│   ├── Tabla/               Tabla de hash (implementación con hash cerrado)
+│   ├── Tabla/                Tabla de hash (implementación con hash cerrado)
 │   ├── ABB/                  Árbol Binario de Búsqueda
 │   ├── AVL/                  Árbol Binario de Búsqueda balanceado
 │   ├── HeapBinario/          Heap binario (MinHeap y MaxHeap)
