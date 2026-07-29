@@ -21,7 +21,10 @@ bool esSolucion(int objIndex)
   return objIndex == cantObjetos; // termine de evaluar todos los objetos
 }
 
-bool esMejorSolucion(int actual, int mejor) { return actual > mejor; }
+bool esMejorSolucion(int actual, int mejor)
+{
+  return actual > mejor;
+}
 
 void clonarSolucion(bool *origen, bool *destino)
 {
@@ -36,25 +39,21 @@ bool puedoUsarObjeto(int capacidad, int objIndex)
   return capacidad >= pesos[objIndex];
 }
 
-void aplicarMovimiento(int &capacidad, bool *&objetosUsados, int &valorMochila,
-                       int objIndex)
+void aplicarMovimiento(int &capacidad, bool *&objetosUsados, int &valorMochila, int objIndex)
 {
   capacidad -= pesos[objIndex];
   objetosUsados[objIndex] = true;
   valorMochila += valores[objIndex];
 }
 
-void deshacerMovimiento(int &capacidad, bool *&objetosUsados, int &valorMochila,
-                        int objIndex)
+void deshacerMovimiento(int &capacidad, bool *&objetosUsados, int &valorMochila, int objIndex)
 {
   capacidad += pesos[objIndex];
   objetosUsados[objIndex] = false;
   valorMochila -= valores[objIndex];
 }
 
-void mochila_bt(int capacidad, int objIndex, bool *objetosUsados,
-                int valorActualMochila, bool *&mejorObjetosUsados,
-                int &mejorValorMochila)
+void mochila_bt(int capacidad, int objIndex, bool *objetosUsados, int valorActualMochila, bool *&mejorObjetosUsados, int &mejorValorMochila)
 {
   if (!puedoPodar())
   {

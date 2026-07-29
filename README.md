@@ -48,10 +48,35 @@ operaciones, de manera que se pueda leer como material de estudio y no solamente
 │   └── Kruskal.cpp           Árbol generador mínimo (usa MFSet)
 │
 └── Estrategias/              Estrategias algorítmicas
-    ├── Backtracking/         N-Reinas, recorrida del Caballo
-    ├── Greedy/               Aeropuerto
-    ├── ProgramacionDinamica/ Problema del Cambio
-    └── DivideAndConquer/     (pendiente)
+    │
+    ├── Backtracking/
+    │   ├── N-Reinas.cpp              N reinas en un tablero de N x N
+    │   ├── Caballo.cpp               Recorrida del caballo
+    │   └── Mochila01.cpp             Mochila 0-1 (esquema con poda)
+    │
+    ├── Greedy/
+    │   ├── Aeropuerto.cpp            Máximo de aviones simultáneos en tierra (usa MinHeap)
+    │   ├── Mochila.cpp               Mochila greedy (asume objetos ya ordenados por heurística)
+    │   ├── Laberinto.cpp             Camino en matriz rompiendo la menor cantidad de paredes
+    │   ├── Parentesis.cpp            Mínimos intercambios para balancear una cadena de []
+    │   ├── PoliciasYLadrones.cpp     Máximo de capturas con distancia <= K
+    │   └── OperadoresYCuadrillas.cpp Máximo de emparejamientos con distancia <= K
+    │
+    ├── ProgramacionDinamica/
+    │   ├── Fibonacci.cpp             Recursivo, memoización y tabulación
+    │   ├── Escaleras.cpp             Formas de subir una escalera de a 1 o 2 escalones
+    │   ├── EscalerasPonderadas.cpp   Misma escalera minimizando el esfuerzo
+    │   ├── Cambio.cpp                Problema del Cambio
+    │   └── Combinatoria.cpp          Triángulo de Pascal por filas + consultas en cola
+    │
+    └── DivideAndConquer/
+        ├── MergeSort.cpp             Ordenación por intercalación
+        ├── QuickSort.cpp             Ordenación por partición
+        ├── Minimo.cpp                Mínimo de un arreglo
+        ├── Prefijo.cpp               Prefijo común más largo de un conjunto de strings
+        ├── SecuenciaMaxima.cpp       Subarreglo de suma máxima
+        ├── Mochila-01.cpp            Mochila 0-1 recursiva (cada objeto se usa a lo sumo 1 vez)
+        └── Mochila-0INF.cpp          Mochila 0-INF recursiva (objetos con repetición)
 ```
 
 ## Cómo compilar y ejecutar
@@ -70,6 +95,12 @@ g++ -std=c++17 -Wall Estrategias/Backtracking/N-Reinas.cpp -o reinas
 ```
 
 En Windows con MinGW el comando es el mismo, cambiando el ejecutable de salida a `.exe`.
+
+Varios archivos de `Estrategias/` no traen `main`: son solo la función del problema, protegida con
+`#ifndef`, pensada para incluirla desde otro archivo o para leerla como referencia. Los que sí se
+pueden compilar y correr directamente son `N-Reinas.cpp`, `Caballo.cpp`, `Cambio.cpp`,
+`Combinatoria.cpp` y `OperadoresYCuadrillas.cpp` (estos dos últimos leen los casos por entrada
+estándar).
 
 ## Convenciones del código
 
@@ -132,8 +163,34 @@ Con **V** vértices y **A** aristas. **LA** = lista de adyacencia, **MA** = matr
 |:---|:---|:---:|
 | **N-Reinas** | Backtracking | N! |
 | **Recorrida del Caballo** | Backtracking | Exponencial |
+| **Mochila 0-1** | Backtracking | 2^N |
 | **Aeropuerto** | Greedy | N Log N |
-| **Problema del Cambio** | Programación Dinámica | N · M (M = monto) |
+| **Mochila greedy** | Greedy | N (ya ordenado) / N Log N (ordenando) |
+| **Laberinto** | Greedy | F + C (filas + columnas a recorrer) |
+| **Paréntesis** | Greedy | N² (peor caso) |
+| **Policías y Ladrones** | Greedy | N |
+| **Operadores y Cuadrillas** | Greedy | N + M (índices ya ordenados) |
+| **Fibonacci** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
+| **Escaleras** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
+| **Escaleras Ponderadas** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
+| **Problema del Cambio** | Prog. Dinámica | N · M (M = monto) |
+| **Combinatoria** | Prog. Dinámica | N² |
+| **MergeSort** | Divide & Conquer | N Log N |
+| **QuickSort** | Divide & Conquer | N Log N (promedio) / N² (peor) |
+| **Mínimo** | Divide & Conquer | N |
+| **Prefijo común** | Divide & Conquer | N · L (L = largo del prefijo) |
+| **Secuencia Máxima** | Divide & Conquer | N Log N |
+| **Mochila 0-1 / 0-INF** | Divide & Conquer | Exponencial |
+
+Notas:
+
+- **Divide & Conquer vs. Programación Dinámica**: las mochilas recursivas de
+  `DivideAndConquer/` resuelven el mismo problema una y otra vez; son el punto de partida al que
+  después se le agrega memoización para bajar el costo.
+- **Combinatoria**: se calcula el triángulo de Pascal fila por fila reusando un único arreglo, y las
+  consultas se resuelven al vuelo desde una cola, por lo que deben venir ordenadas por `n`.
+- **Operadores y Cuadrillas** y **Policías y Ladrones** usan la misma idea: dos punteros que avanzan
+  de izquierda a derecha emparejando el primer candidato que esté a distancia `K`.
 
 ---
 
