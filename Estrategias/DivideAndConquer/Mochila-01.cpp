@@ -8,7 +8,7 @@ int max(int a, int b)
 
 int mochila01(int *pesos, int *valores, int capacidad, int n)
 {
-    if (n < 0 || capacidad == 0) // Capacidad == 0 SOLO si ningun objeto tiene peso 0
+    if (n < 0 /*|| capacidad == 0*/) // Capacidad == 0 SOLO si ningun objeto tiene peso 0
         return 0;
 
     if (pesos[n] > capacidad) // base 0
