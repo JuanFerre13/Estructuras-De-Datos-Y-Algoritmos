@@ -60,14 +60,17 @@ operaciones, de manera que se pueda leer como material de estudio y no solamente
     │   ├── Laberinto.cpp             Camino en matriz rompiendo la menor cantidad de paredes
     │   ├── Parentesis.cpp            Mínimos intercambios para balancear una cadena de []
     │   ├── PoliciasYLadrones.cpp     Máximo de capturas con distancia <= K
-    │   └── OperadoresYCuadrillas.cpp Máximo de emparejamientos con distancia <= K
+    │   ├── OperadoresYCuadrillas.cpp Máximo de emparejamientos con distancia <= K
+    │   └── Cambio.cpp                Problema del Cambio con criterio greedy (no siempre óptimo)
     │
     ├── ProgramacionDinamica/
     │   ├── Fibonacci.cpp             Recursivo, memoización y tabulación
     │   ├── Escaleras.cpp             Formas de subir una escalera de a 1 o 2 escalones
     │   ├── EscalerasPonderadas.cpp   Misma escalera minimizando el esfuerzo
-    │   ├── Cambio.cpp                Problema del Cambio
-    │   └── Combinatoria.cpp          Triángulo de Pascal por filas + consultas en cola
+    │   ├── Cambio.cpp                Problema del Cambio + reconstrucción de las monedas usadas
+    │   ├── Combinatoria.cpp          Triángulo de Pascal por filas + consultas en cola
+    │   ├── CaminosMatriz.cpp         Caminos en una matriz (rec, memo, tab y tab optimizada)
+    │   └── Mochila-01.cpp            Mochila 0-1 tabulada, de 1 y 2 dimensiones, con reconstrucción
     │
     └── DivideAndConquer/
         ├── MergeSort.cpp             Ordenación por intercalación
@@ -98,9 +101,9 @@ En Windows con MinGW el comando es el mismo, cambiando el ejecutable de salida a
 
 Varios archivos de `Estrategias/` no traen `main`: son solo la función del problema, protegida con
 `#ifndef`, pensada para incluirla desde otro archivo o para leerla como referencia. Los que sí se
-pueden compilar y correr directamente son `N-Reinas.cpp`, `Caballo.cpp`, `Cambio.cpp`,
-`Combinatoria.cpp` y `OperadoresYCuadrillas.cpp` (estos dos últimos leen los casos por entrada
-estándar).
+pueden compilar y correr directamente son `Backtracking/N-Reinas.cpp`, `Backtracking/Caballo.cpp`,
+`ProgramacionDinamica/Cambio.cpp`, `ProgramacionDinamica/Combinatoria.cpp` y
+`Greedy/OperadoresYCuadrillas.cpp` (estos tres últimos leen los casos por entrada estándar).
 
 ## Convenciones del código
 
@@ -170,11 +173,15 @@ Con **V** vértices y **A** aristas. **LA** = lista de adyacencia, **MA** = matr
 | **Paréntesis** | Greedy | N² (peor caso) |
 | **Policías y Ladrones** | Greedy | N |
 | **Operadores y Cuadrillas** | Greedy | N + M (índices ya ordenados) |
+| **Problema del Cambio** | Greedy | N (monedas ya ordenadas) |
 | **Fibonacci** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
 | **Escaleras** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
 | **Escaleras Ponderadas** | Prog. Dinámica | 2^N (rec) / N (memo y tab) |
 | **Problema del Cambio** | Prog. Dinámica | N · M (M = monto) |
 | **Combinatoria** | Prog. Dinámica | N² |
+| **Caminos en Matriz** | Prog. Dinámica | 2^(F+C) (rec) / F · C (memo y tab) |
+| **Mochila 0-1 (1 dim)** | Prog. Dinámica | N · C (C = capacidad) |
+| **Mochila 0-1 (2 dim)** | Prog. Dinámica | N · C · V (V = volumen) |
 | **MergeSort** | Divide & Conquer | N Log N |
 | **QuickSort** | Divide & Conquer | N Log N (promedio) / N² (peor) |
 | **Mínimo** | Divide & Conquer | N |
@@ -186,7 +193,18 @@ Notas:
 
 - **Divide & Conquer vs. Programación Dinámica**: las mochilas recursivas de
   `DivideAndConquer/` resuelven el mismo problema una y otra vez; son el punto de partida al que
-  después se le agrega memoización para bajar el costo.
+  después se le agrega memoización para bajar el costo. `ProgramacionDinamica/Mochila-01.cpp` es
+  el cierre de ese recorrido: la misma mochila 0-1 ya tabulada, primero con una sola restricción
+  (peso) y después con dos (peso y volumen), incluyendo el recorrido hacia atrás sobre la tabla
+  para saber **qué objetos** se usaron y no solo el valor final.
+- **Problema del Cambio**: está resuelto de las dos formas. El greedy de `Greedy/Cambio.cpp` va
+  tomando siempre la moneda más grande que entra —es O(N), pero **solo da el óptimo con ciertos
+  sistemas de monedas**—; la versión de `ProgramacionDinamica/Cambio.cpp` arma la tabla monto a
+  monto, siempre encuentra el mínimo y además reconstruye qué monedas se entregaron.
+- **Caminos en Matriz**: mismo esquema que Fibonacci pero en dos dimensiones. Se incluye la versión
+  recursiva, la memoizada, la tabulada y una tabulación optimizada que reusa un único arreglo de
+  una fila, más la variante con **obstáculos** (las celdas bloqueadas quedan en 0 y cortan el
+  camino).
 - **Combinatoria**: se calcula el triángulo de Pascal fila por fila reusando un único arreglo, y las
   consultas se resuelven al vuelo desde una cola, por lo que deben venir ordenadas por `n`.
 - **Operadores y Cuadrillas** y **Policías y Ladrones** usan la misma idea: dos punteros que avanzan
