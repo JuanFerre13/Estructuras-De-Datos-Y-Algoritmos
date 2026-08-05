@@ -1,6 +1,7 @@
 #ifndef MOCHILA01_PD
 #define MOCHILA01_PD
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -66,7 +67,7 @@ void mochila01()
 
 
 // MOCHILA 0-1 DE 2 DIMENSIONES
-void mochila01()
+void mochila01_2D()
 {
     int ***tab = new int **[N + 1]();
     for (int i = 0; i <= N; i++)

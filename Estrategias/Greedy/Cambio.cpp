@@ -5,12 +5,12 @@ int cambioGreedy(int n, int *monedas, int cambio){
     int cantidad = 0;
     for (int i = n-1; i >= 0; i--)
     {
-        while(cambio > monedas[i]){
+        while(cambio >= monedas[i]){
             cambio -= monedas[i];
             cantidad++;
         }
     }
-    return cantidad == 0 ? cantidad : -1;
+    return cambio == 0 ? cantidad : -1;
 }
 
 #endif
